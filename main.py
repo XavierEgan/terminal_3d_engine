@@ -22,6 +22,8 @@ class node_3d:
         # F/m = Δv/Δt
         # Δv = F/m * Δt
         delta_v = [force[i]/(0.0001 if self.mass==0 else self.mass) * delta for i in range(3)]
+        #self.vel = [delta_v[x]*]
+
 
 class game_tree:
     def __init__(self):
@@ -41,6 +43,7 @@ class game_tree:
                 if isinstance(node, camera):
                     node.render(self)
                     node.camera_control(delta)
+                    print(f"Python FPS: {1/delta}")
                 if isinstance(node, node_3d):
                     node.physics_step(delta)
     
@@ -242,7 +245,7 @@ indicies = [
     1,3,2,    # base (second triangle)
 ]
 
-pyramid = mesh(verts, indicies, "*")
+pyramid = mesh(verts, indicies, "%")
 gt.tree.append(pyramid)
 
 gt.main()
