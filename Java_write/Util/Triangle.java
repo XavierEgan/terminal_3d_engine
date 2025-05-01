@@ -5,14 +5,20 @@ public class Triangle {
     public Vec3 vert1;
     public Vec3 vert2;
 
-    public Triangle(Vec3 vert0, Vec3 vert1, Vec3 vert2) {
+    public char texture;
+    public String color;
+
+    public Triangle(Vec3 vert0, Vec3 vert1, Vec3 vert2, char texture, String color) {
         this.vert0 = vert0;
         this.vert1 = vert1;
         this.vert2 = vert2;
+        
+        this.texture = texture;
+        this.color = color;
     }
 
     public Triangle() {
-        this(new Vec3(), new Vec3(), new Vec3());
+        this(new Vec3(), new Vec3(), new Vec3(), '#', "");
     }
 
     public Vec3 normal() {
