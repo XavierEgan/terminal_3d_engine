@@ -80,6 +80,7 @@ public class Vec3 {
         return (new Vec3(s1, s2, s3));
     }
 
+    @Override
     public String toString() {
         return String.format("Vec3(%.3f, %.3f, %.3f)", this.x, this.y, this.z);
     }

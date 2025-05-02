@@ -1,6 +1,5 @@
 package Java_write;
 
-import java.util.ArrayList;
 import Java_write.Util.*;
 
 public class Test {

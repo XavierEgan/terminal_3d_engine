@@ -17,6 +17,7 @@ public class NaiveRewrite {
         double pitchStep = cam.verticalFov / cam.screenHeight;
 
         StringBuilder screen = new StringBuilder((cam.screenHeight * cam.screenWidth) * 20 + cam.screenHeight); // *20 to account for ansi escape codes
+        screen.append("\033[H");
 
         for (int pitchI=0; pitchI < cam.screenHeight; pitchI++) {
             for (int yawI=0; yawI < cam.horizontalFov; yawI++) {
@@ -63,8 +64,7 @@ public class NaiveRewrite {
             // look down a lil bit
             pitch -= pitchStep;
         }
-        System.out.print("\033[2J\033[H");
-        System.out.println(screen.toString());
+        System.out.println(screen);
     }
     
     public static Triangle[] getTris(SceneTree sceneTree) {
