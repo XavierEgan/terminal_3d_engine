@@ -10,19 +10,13 @@ public class NaiveBackfaceCulling {
         // first get all the tris in the scene into a tri buffer 
         ArrayList<Triangle> tris = getTris(sceneTree, Vec3.fromSpherical(cam.rot.z, cam.rot.y));
 
-        double yaw = cam.rot.y - cam.horizontalFov/2;
-        double yawStep = cam.horizontalFov / cam.screenWidth;
-
-        double pitch = cam.rot.z + cam.verticalFov / 2;
-        double pitchStep = cam.verticalFov / cam.screenHeight;
-
         StringBuilder screen = new StringBuilder((cam.screenHeight * cam.screenWidth) * 20 + cam.screenHeight); // *20 to account for ansi escape codes
         screen.append("\033[H");
 
         for (int pitchI=0; pitchI < cam.screenHeight; pitchI++) {
             for (int yawI=0; yawI < cam.horizontalFov; yawI++) {
                 // get the dir vector of the ray were casting
-                Vec3 dir = Vec3.fromSpherical(pitch, yaw);
+                Vec3 dir = cam.rays[pitchI][yawI];
 
                 double intersectionDistance;
                 double minIntersectionDistance = Double.POSITIVE_INFINITY;
@@ -51,18 +45,9 @@ public class NaiveBackfaceCulling {
                     String pixel = closestIntersectingTriangle.color + closestIntersectingTriangle.texture + "\033[0m";
                     screen.append(pixel);
                 }
-
-                // sweep across the screen for each line
-                yaw += yawStep;
             }
             // add the newline
             screen.append("\n");
-
-            // go back to the start for the next line
-            yaw = cam.rot.y - cam.horizontalFov / 2;
-
-            // look down a lil bit
-            pitch -= pitchStep;
         }
         System.out.println(screen);
     }

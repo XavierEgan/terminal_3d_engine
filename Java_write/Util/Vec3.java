@@ -85,7 +85,6 @@ public class Vec3 {
         // projects in the direction of other
         Vec3 otherhat = other.normalized();
         return otherhat.scaled(this.dot(otherhat));
-        
     }
 
     @Override

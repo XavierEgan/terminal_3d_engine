@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class NaiveRewrite {
     public static void render(SceneTree sceneTree, Camera cam) {
         // first get all the tris in the scene into a tri buffer 
-        Triangle[] tris = getTris(sceneTree);
+        ArrayList<Triangle> tris = getTris(sceneTree);
 
         double yaw = cam.rot.y - cam.horizontalFov/2;
         double yawStep = cam.horizontalFov / cam.screenWidth;
@@ -67,32 +67,24 @@ public class NaiveRewrite {
         System.out.println(screen);
     }
     
-    public static Triangle[] getTris(SceneTree sceneTree) {
+    public static ArrayList<Triangle> getTris(SceneTree sceneTree) {
         // get all the meshs
         ArrayList<Mesh> meshs = new ArrayList<Mesh>();
-        int meshCount = 0;
-        int triCount = 0;
 
         for (Node n : sceneTree.tree) {
             if (n instanceof Mesh) {
-                Mesh m = (Mesh) n;
-                meshs.add(m);
-                meshCount += 1;
-                triCount += m.triangles.size();
+                meshs.add((Mesh) n);
             }
         }
         
-        Triangle[] tris = new Triangle[triCount];
-        int i = 0;
+        // get all the tris
+        ArrayList<Triangle> tris = new ArrayList<Triangle>();
         for (Mesh m : meshs) {
             for (Triangle t : m.triangles) {
-                tris[i] = t;
-                i++;
+                tris.add(t);
             }
         }
 
         return tris;
     }
-
-
 }
