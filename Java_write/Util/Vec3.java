@@ -80,6 +80,14 @@ public class Vec3 {
         return (new Vec3(s1, s2, s3));
     }
 
+    public Vec3 project(Vec3 other) {
+        // (a.bhat) * bhat
+        // projects in the direction of other
+        Vec3 otherhat = other.normalized();
+        return otherhat.scaled(this.dot(otherhat));
+        
+    }
+
     @Override
     public String toString() {
         return String.format("Vec3(%.3f, %.3f, %.3f)", this.x, this.y, this.z);

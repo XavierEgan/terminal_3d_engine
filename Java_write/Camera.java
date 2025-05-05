@@ -21,6 +21,6 @@ public class Camera extends Node3D{
 
     @Override
     public void tick(double delta, SceneTree sceneTree) {
-        NaiveRewrite.render(sceneTree, this);
+        NaiveBackfaceCulling.render(sceneTree, this);
     }
 }
