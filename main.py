@@ -173,7 +173,7 @@ class camera(node_3d):
             return False
 
     def camera_control(self, delta):
-        '''
+        
         if keyboard.is_pressed("esc"):
             game_tree.end()
         
@@ -214,7 +214,7 @@ class camera(node_3d):
         self.pos = [self.pos[i] + move_vect[i] for i in range(3)]
         self.pitch += rotate_vect[0]
         self.yaw += rotate_vect[1]
-        '''
+        
 
 gt = game_tree()
 

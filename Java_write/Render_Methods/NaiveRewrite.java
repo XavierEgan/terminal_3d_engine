@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class NaiveRewrite {
     public static void render(SceneTree sceneTree, Camera cam) {
         // first get all the tris in the scene into a tri buffer 
-        ArrayList<Triangle> tris = getTris(sceneTree);
+        ArrayList<RenderingTriangle> tris = getTris(sceneTree);
 
         double yaw = cam.rot.y - cam.horizontalFov/2;
         double yawStep = cam.horizontalFov / cam.screenWidth;
@@ -26,12 +26,12 @@ public class NaiveRewrite {
 
                 double intersectionDistance;
                 double minIntersectionDistance = Double.POSITIVE_INFINITY;
-                Triangle closestIntersectingTriangle = null;
+                RenderingTriangle closestIntersectingTriangle = null;
 
                 // go through every triangle
-                for (Triangle tri : tris) {
+                for (RenderingTriangle rtri : tris) {
                     // check if the ray is intersecting the tri
-                    intersectionDistance = tri.rayIntersectionDistance(cam.pos, dir);
+                    intersectionDistance = rtri.tri.rayIntersectionDistance(cam.pos, dir);
 
                     if (intersectionDistance < 0) {
                         // we are not intersecting
@@ -41,7 +41,7 @@ public class NaiveRewrite {
                     if (intersectionDistance < minIntersectionDistance) {
                         // the intersection is closer
                         minIntersectionDistance = intersectionDistance;
-                        closestIntersectingTriangle = tri;
+                        closestIntersectingTriangle = rtri;
                     }
                 }
                 if (closestIntersectingTriangle == null) {
@@ -67,7 +67,7 @@ public class NaiveRewrite {
         System.out.println(screen);
     }
     
-    public static ArrayList<Triangle> getTris(SceneTree sceneTree) {
+    public static ArrayList<RenderingTriangle> getTris(SceneTree sceneTree) {
         // get all the meshs
         ArrayList<Mesh> meshs = new ArrayList<Mesh>();
 
@@ -78,9 +78,9 @@ public class NaiveRewrite {
         }
         
         // get all the tris
-        ArrayList<Triangle> tris = new ArrayList<Triangle>();
+        ArrayList<RenderingTriangle> tris = new ArrayList<RenderingTriangle>();
         for (Mesh m : meshs) {
-            for (Triangle t : m.triangles) {
+            for (RenderingTriangle t : m.triangles) {
                 tris.add(t);
             }
         }

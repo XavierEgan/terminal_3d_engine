@@ -5,10 +5,10 @@ import Java_write.*;
 
 import java.util.ArrayList;
 
-public class NaiveBackfaceCulling {
+public class BackfaceCulling {
     public static void render(SceneTree sceneTree, Camera cam) {
         // first get all the tris in the scene into a tri buffer 
-        ArrayList<Triangle> tris = getTris(sceneTree, Vec3.fromSpherical(cam.rot.z, cam.rot.y));
+        ArrayList<RenderingTriangle> tris = getTris(sceneTree, Vec3.fromSpherical(cam.rot.z, cam.rot.y));
 
         StringBuilder screen = new StringBuilder((cam.screenHeight * cam.screenWidth) * 20 + cam.screenHeight); // *20 to account for ansi escape codes
         screen.append("\033[H");
@@ -20,12 +20,12 @@ public class NaiveBackfaceCulling {
 
                 double intersectionDistance;
                 double minIntersectionDistance = Double.POSITIVE_INFINITY;
-                Triangle closestIntersectingTriangle = null;
+                RenderingTriangle closestIntersectingTriangle = null;
 
                 // go through every triangle
-                for (Triangle tri : tris) {
+                for (RenderingTriangle rtri : tris) {
                     // check if the ray is intersecting the tri
-                    intersectionDistance = tri.rayIntersectionDistance(cam.pos, dir);
+                    intersectionDistance = rtri.tri.rayIntersectionDistance(cam.pos, dir);
 
                     if (intersectionDistance < 0) {
                         // we are not intersecting
@@ -35,7 +35,7 @@ public class NaiveBackfaceCulling {
                     if (intersectionDistance < minIntersectionDistance) {
                         // the intersection is closer
                         minIntersectionDistance = intersectionDistance;
-                        closestIntersectingTriangle = tri;
+                        closestIntersectingTriangle = rtri;
                     }
                 }
                 if (closestIntersectingTriangle == null) {
@@ -52,7 +52,7 @@ public class NaiveBackfaceCulling {
         System.out.println(screen);
     }
     
-    public static ArrayList<Triangle> getTris(SceneTree sceneTree, Vec3 camFacingVec3) {
+    public static ArrayList<RenderingTriangle> getTris(SceneTree sceneTree, Vec3 camFacingVec3) {
         // get all the meshs
         ArrayList<Mesh> meshs = new ArrayList<Mesh>();
 
@@ -63,13 +63,11 @@ public class NaiveBackfaceCulling {
         }
         
         // get all the tris
-        ArrayList<Triangle> tris = new ArrayList<Triangle>();
-        int i = 0;
+        ArrayList<RenderingTriangle> tris = new ArrayList<RenderingTriangle>();
         for (Mesh m : meshs) {
-            for (Triangle t : m.triangles) {
-                if (drawTri(t, camFacingVec3)) {
-                    tris.add(t);
-                    i++;
+            for (RenderingTriangle rtri : m.triangles) {
+                if (drawTri(rtri.tri, camFacingVec3)) {
+                    tris.add(rtri);
                 }
             }
         }

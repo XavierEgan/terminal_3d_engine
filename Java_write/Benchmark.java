@@ -1,7 +1,5 @@
 package Java_write;
 
-import java.util.ArrayList;
-
 public class Benchmark extends Node{
     // make a circular buffer of the frames coz its efficient
     private final double[] frameDeltaBuffer;
@@ -22,16 +20,19 @@ public class Benchmark extends Node{
 
     @Override
     public void tick(double delta, SceneTree sceneTree) {
+        StringBuilder benchmarkString = new StringBuilder();
         double start = System.nanoTime();
-        bench(delta);
-        System.out.printf("Benchmarking Took %.6fms", (System.nanoTime() - start)/1e6);
+        bench(delta, benchmarkString);
+        benchmarkString.append(String.format("Benchmarking Took %.6fms", (System.nanoTime() - start) / 1e6));
+
+        System.out.print(benchmarkString);
     }
 
-    public void bench(double delta) {
+    public void bench(double delta, StringBuilder benchmarkString) {
         addFrameDelta(delta);
 
         double averageDelta = runningDeltaTotal/frameCount; // frame count should reach and stay at frameBuffer
-        System.out.printf("JAVA:%nAverageFPS = %.2f%nAverageDelta = %.6fms%n", 1/averageDelta, averageDelta*1e3);
+        benchmarkString.append(String.format("JAVA:%nAverageFPS = %.2f%nAverageDelta = %.6fms%n", 1/averageDelta, averageDelta*1e3));
     }
 
     public void addFrameDelta(double delta) {

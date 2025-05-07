@@ -21,7 +21,7 @@ public class Matrix {
         if (mat1.dim()[1] != mat2.dim()[0]) {
             throw new IllegalArgumentException("matrix dimensions are wrong");
         }
-        data = new int[mat1.dim()[0]][mat2.dim()[1]];
+        data = new double[mat1.dim()[0]][mat2.dim()[1]];
 
         // cij = sum (aik, bkj)
         for (int i=0; i<data.length; i++) {
@@ -32,6 +32,9 @@ public class Matrix {
         }
     }
     private double rowMult(double[] i, double[] j) {
-        for (double )
+        double c = 0;
+        for (int n=0; n < i.length; i++) {
+            c += idouble * 
+        }
     }
 }

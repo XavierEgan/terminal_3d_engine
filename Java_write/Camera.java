@@ -1,6 +1,7 @@
 package Java_write;
 
 import Java_write.Util.*;
+import Java_write.ARCHIVE.BackfaceCullingThreaded;
 import Java_write.Render_Methods.*;
 
 public class Camera extends Node3D{
@@ -40,6 +41,13 @@ public class Camera extends Node3D{
             // look down a lil bit
             pitch -= pitchStep;
         }
+
+        // clear the whole screen
+        StringBuilder clear = new StringBuilder(screenHeight * screenWidth * 10);
+        for (int i=0; i<screenHeight*screenWidth*10; i++) {
+            clear.append(" ");
+        }
+        System.out.println(clear);
     }
 
     public Camera() {
@@ -48,6 +56,6 @@ public class Camera extends Node3D{
 
     @Override
     public void tick(double delta, SceneTree sceneTree) {
-        NaiveBackfaceCulling.render(sceneTree, this);
+        NaiveRewrite.render(sceneTree, this);
     }
 }
